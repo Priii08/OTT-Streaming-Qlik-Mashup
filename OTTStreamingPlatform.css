@@ -1,0 +1,215 @@
+/* ---------- HEADER ---------- */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:36px;
+    color:#1f2937;
+}
+
+/* ---------- THEME BUTTON ---------- */
+
+.theme-btn{
+
+    width:48px;
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    background:#ffffff;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+
+    transition:.3s;
+
+}
+
+.theme-btn:hover{
+
+    transform:rotate(25deg) scale(1.05);
+
+}
+body{
+    margin:20px;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f7fb;
+    max-width:1500px;
+    margin:auto;
+    padding:20px;
+}
+
+.dashboard{
+    max-width:1700px;
+    margin:auto;
+}
+h1{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:35px;
+    color:#111827;
+}
+
+.title{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:30px;
+    color:#222;
+}
+
+
+.charts{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-top:30px;
+}
+
+.chart-card{
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+	overflow: hidden;
+}
+
+#contentPlatform,
+#releaseTrend,
+#genreTreemap,
+#topCountries,
+#imdbScatter,
+#growthChart{
+    width:100%;
+    height:320px;
+}
+
+#popup{
+    display:none;
+}
+.filter-container{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin:25px 0;
+}
+
+.filter-box{
+    background:#fff;
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+    transition:.25s;
+
+}
+
+.filter-box:hover{
+
+    transform:translateY(-4px);
+
+}
+
+
+.filter-box h3{
+    text-align:center;
+    margin-bottom:12px;
+    color:#444;
+    font-size:18px;
+}
+
+#platformFilter,
+#releaseYearFilter,
+#ageRatingFilter,
+#countryFilter{
+    width:100%;
+    height:180px;
+}
+
+.kpi-container{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin:25px 0;
+}
+
+.kpi-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    text-align:center;
+    height:150px;
+    transition:.25s;
+}
+
+.kpi-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+
+}
+
+
+.kpi-card h3{
+    text-align: center;
+	margin:0 0 15px;
+    font-size:20px;
+    color:#444;
+    font-weight:600;
+	margin-bottom: 10px;
+}
+
+#totalTitles,
+#totalCountries,
+#avgIMDb,
+#avgRuntime{
+    width:100%;
+    height:95px;
+}
+
+/* ===========================
+   DARK MODE
+=========================== */
+
+body.dark{
+
+    background:#111827;
+    color:white;
+
+}
+
+body.dark h1,
+body.dark h3{
+
+    color:white;
+
+}
+
+body.dark .filter-box,
+body.dark .kpi-card,
+body.dark .chart-card{
+
+    background:#1f2937;
+    border-color:#374151;
+
+}
+
+body.dark .theme-btn{
+
+    background:#374151;
+    color:white;
+
+}
+
