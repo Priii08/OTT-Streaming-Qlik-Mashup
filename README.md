@@ -72,11 +72,7 @@ OTT-Streaming-Qlik-Mashup/
 
 ---
 
-### Interactive Filters
 
-![Filters](screenshots/filters.png)
-
----
 
 ## 📊 Dashboard Overview
 
