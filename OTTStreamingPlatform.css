@@ -318,15 +318,15 @@ font-family:'Poppins',sans-serif;
 
 color:var(--text);
 
-padding:24px;
+padding:16px 18px;
 
 transition:.3s;
 
 }
 
-.dashboard {
-    max-width: 1700px;
-    margin: auto;
+.dashboard, body{
+    max-width: 1500px;
+    margin:0 auto;
 }
 
 h1{
