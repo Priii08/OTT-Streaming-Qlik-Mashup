@@ -1,72 +1,123 @@
-# OTT Streaming Qlik Mashup
+# 🎬 OTT Streaming Analytics Dashboard (Qlik Sense Mashup)
 
-An interactive OTT Streaming Analytics Dashboard built using **Qlik Sense Desktop Dev Hub** and **Qlik Capability APIs**.
+A modern and interactive OTT Streaming Analytics Dashboard built as a **Qlik Sense Mashup** using **Qlik Dev Hub**. The project embeds Qlik Sense visualizations into a custom web interface to provide an intuitive analytics experience for OTT platform data.
 
-## Features
+---
 
-- Interactive Filter Panes
-- KPI Cards
-- Content by Platform
-- Content Release Trend
-- Genre Distribution Treemap
-- Top 10 Countries by Content
-- IMDb vs Rotten Tomatoes Analysis
-- Content Growth vs IMDb Rating
-- Light / Dark Theme Toggle
-- Responsive Dashboard Layout
+## 🚀 Features
 
-## Tech Stack
+- 📊 Interactive Qlik Sense visualizations
+- 🎯 Dynamic filters
+  - Platform
+  - Release Year
+  - Age Rating
+  - Country
+- 📈 KPI Cards
+  - Total Titles
+  - Total Countries
+  - Average IMDb Rating
+  - Average Runtime
+- 📉 Analytics Visualizations
+  - Content by Platform
+  - Content Release Trend
+  - Genre Distribution
+  - Top 10 Countries
+  - IMDb vs Rotten Tomatoes
+  - Content Growth vs IMDb
+- 🌗 Light & Dark Theme Toggle
+- 🎨 Modern responsive dashboard UI
+- 🔗 Embedded Qlik Sense objects using Qlik Dev Hub
 
-- Qlik Sense Desktop
-- Qlik Capability APIs
+---
+
+## 🛠️ Technologies Used
+
+- Qlik Sense Enterprise
+- Qlik Dev Hub
 - HTML5
 - CSS3
 - JavaScript
+- RequireJS
 
 ---
 
-## Dashboard (Light Theme)
-
-![Dashboard Light](screenshots/dashboard-light.jpeg)
-
----
-
-## Dashboard (Dark Theme)
-
-![Dashboard Dark](screenshots/dashboard-dark.jpeg)
-
----
-
-## Alternate Dashboard View
-
-![Dashboard](screenshots/dashboard-light2.jpeg)
-
----
-
-## Mashup Editor
-
-![Mashup Editor](screenshots/mashup-editor.jpeg)
-
----
-
-## Project Structure
+## 📂 Project Structure
 
 ```
-OTTStreamingPlatform
+OTT-Streaming-Qlik-Mashup/
 │
 ├── OTTStreamingPlatform.html
 ├── OTTStreamingPlatform.css
 ├── OTTStreamingPlatform.js
-├── OTTStreamingPlatform.qext
-├── wbfolder.wbl
-├── screenshots
-│   ├── dashboard-dark.jpeg
-│   ├── dashboard-light.jpeg
-│   ├── dashboard-light2.jpeg
-│   └── mashup-editor.jpeg
+├── screenshots/
+│   ├── dashboard-light.png
+│   ├── dashboard-dark.png
+│   └── filters.png
 └── README.md
 ```
 
-## Author
+---
+
+## 📷 Screenshots
+
+### Light Theme
+
+![Light Theme](screenshots/dashboard-light.png)
+
+---
+
+### Dark Theme
+
+![Dark Theme](screenshots/dashboard-dark.png)
+
+---
+
+### Interactive Filters
+
+![Filters](screenshots/filters.png)
+
+---
+
+## 📊 Dashboard Overview
+
+The dashboard provides insights into OTT streaming content through interactive Qlik Sense visualizations.
+
+Users can analyze:
+
+- Content distribution across platforms
+- Release trends over time
+- Genre-wise distribution
+- Top producing countries
+- IMDb vs Rotten Tomatoes ratings
+- Growth trends of OTT content
+
+Interactive filters allow users to drill down by platform, release year, age rating, and country.
+
+---
+
+## 💡 Highlights
+
+- Custom UI built over Qlik Sense Mashup
+- Professional dashboard styling
+- Responsive layout
+- Light/Dark mode support
+- Embedded Qlik Sense analytics
+- Interactive filtering and KPIs
+
+---
+
+## 👩‍💻 Author
 
 **Priyanshi Varshney**
+
+B.Tech CSE (Full Stack Development)  
+UPES, Dehradun
+
+---
+
+## ⭐ Future Enhancements
+
+- Improved sidebar navigation
+- Additional OTT KPIs
+- Enhanced mobile responsiveness
+- More advanced Qlik visualizations
