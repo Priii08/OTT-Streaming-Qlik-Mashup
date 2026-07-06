@@ -50,19 +50,9 @@ require( ["js/qlik"], function ( qlik ) {
 	
 	const toggleBtn = document.getElementById("themeToggle");
 
-	toggleBtn.addEventListener("click", () => {
+toggleBtn.addEventListener("click",()=>{
 
-    	document.body.classList.toggle("dark");
-
-    	if(document.body.classList.contains("dark")){
-
-        	toggleBtn.innerHTML = "☀️";
-
-    	}else{
-
-        	toggleBtn.innerHTML = "🌙";
-
-    	}
+document.body.classList.toggle("dark");
 
 });
 
@@ -71,5 +61,3 @@ require( ["js/qlik"], function ( qlik ) {
 // =============================
 // Theme Toggle
 // =============================
-
-
