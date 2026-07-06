@@ -50,9 +50,9 @@ OTT-Streaming-Qlik-Mashup/
 ├── OTTStreamingPlatform.css
 ├── OTTStreamingPlatform.js
 ├── screenshots/
-│   ├── dashboard-light.png
-│   ├── dashboard-dark.png
-│   └── filters.png
+│   ├── dashboard-light.jpeg
+│   ├── dashboard-dark.jpeg
+│   
 └── README.md
 ```
 
