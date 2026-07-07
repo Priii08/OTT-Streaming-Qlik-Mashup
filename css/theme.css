@@ -1,0 +1,183 @@
+/**
+ * theme.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Vercel-inspired CSS Custom Property System.
+ * Clean, minimal design: razor-thin borders, high contrast, typography-focused,
+ * pitch-black dark mode (#000000) and crisp light mode (#ffffff).
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT MODE (default)
+═══════════════════════════════════════════════════════════════════════════ */
+:root {
+
+    /* ── Surfaces ──────────────────────────────────────────────────────────── */
+    --surface        : #fafafa;          /* Vercel layout backdrop */
+    --surface-2      : #ffffff;          /* Card background */
+    --surface-3      : #fafafa;          /* Insets / list alternate rows */
+    --surface-dark   : #111111;          /* Sidebar filter backdrop (remains dark) */
+
+    /* ── Brand / Accent ─────────────────────────────────────────────────────── */
+    --primary        : #000000;          /* Vercel signature black */
+    --primary-light  : rgba(0,0,0,0.04);
+    --primary-glow   : rgba(0,0,0,0.08);
+    --secondary      : #444444;
+    --accent         : #0070f3;          /* Vercel blue */
+    --accent-warn    : #f5a623;          /* Vercel orange */
+
+    /* ── Semantic states ────────────────────────────────────────────────────── */
+    --success        : #0070f3;          /* blue for info/success */
+    --success-bg     : rgba(0,112,243,0.08);
+    --warning        : #f5a623;
+    --warning-bg     : rgba(245,166,35,0.08);
+    --danger         : #ee0000;          /* red */
+    --danger-bg      : rgba(238,0,0,0.08);
+    --info           : #0070f3;
+    --info-bg        : rgba(0,112,243,0.08);
+
+    /* ── Text ───────────────────────────────────────────────────────────────── */
+    --text-primary   : #171717;          /* near black */
+    --text-secondary : #666666;          /* mid grey */
+    --text-muted     : #888888;          /* light grey */
+    --text-inverse   : #ffffff;
+
+    /* ── Borders ────────────────────────────────────────────────────────────── */
+    --border         : #eaeaea;          /* Vercel clean light border */
+    --border-strong  : #d5d5d5;
+    --border-subtle  : #fafafa;
+
+    /* ── Elevation / Shadows ────────────────────────────────────────────────── */
+    --shadow-xs      : 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-sm      : 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md      : 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-lg      : 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-xl      : 0 16px 40px rgba(0,0,0,0.12);
+
+    /* ── Border Radii (Vercel rounded corners are very subtle/small) ────────── */
+    --radius-xs      : 4px;
+    --radius-sm      : 6px;
+    --radius-md      : 8px;
+    --radius-lg      : 8px;
+    --radius-xl      : 12px;
+    --radius-pill    : 9999px;
+
+    /* ── Spacing ────────────────────────────────────────────────────────────── */
+    --gap-xs         : 8px;
+    --gap-sm         : 12px;
+    --gap-md         : 20px;
+    --gap-lg         : 24px;
+    --gap-xl         : 32px;
+
+    /* ── Typography (Vercel uses Inter / Geist) ────────────────────────────── */
+    --font           : 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono      : 'Geist Mono', 'Fira Code', monospace;
+    --text-xs        : 0.75rem;
+    --text-sm        : 0.85rem;
+    --text-base      : 0.95rem;
+    --text-lg        : 1.15rem;
+    --text-xl        : 1.35rem;
+    --text-2xl       : 1.65rem;
+    --text-3xl       : 2.1rem;
+
+    /* ── Transitions ────────────────────────────────────────────────────────── */
+    --transition-fast: 0.12s ease;
+    --transition     : 0.22s ease;
+    --transition-slow: 0.35s ease;
+
+    /* ── Chart palette ──────────────────────────────────────────────────────── */
+    --chart-1        : #6366f1;
+    --chart-2        : #0ea5e9;
+    --chart-3        : #10b981;
+    --chart-4        : #f59e0b;
+    --chart-5        : #ef4444;
+    --chart-6        : #8b5cf6;
+    --chart-7        : #06b6d4;
+    --chart-8        : #84cc16;
+    --chart-9        : #f97316;
+    --chart-10       : #ec4899;
+
+    /* Backward-compat aliases for OTTStreamingPlatform.css */
+    --bg             : var(--surface);
+    --card           : var(--surface-2);
+    --text           : var(--text-primary);
+    --muted          : var(--text-secondary);
+    --border-color   : var(--border);
+    --shadow         : var(--shadow-xs);
+    --shadow-hover   : var(--shadow-sm);
+    --radius         : var(--radius-md);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE  (applied when <body class="dark">)
+═══════════════════════════════════════════════════════════════════════════ */
+body.dark {
+
+    /* ── Surfaces ──────────────────────────────────────────────────────────── */
+    --surface        : #000000;          /* Pitch black layout backdrop */
+    --surface-2      : #0a0a0a;          /* Clean off-black card background */
+    --surface-3      : #111111;          /* Subtle layout highlights */
+    --surface-dark   : #0a0a0a;
+
+    /* ── Brand ──────────────────────────────────────────────────────────────── */
+    --primary        : #ffffff;          /* White logo/text focus */
+    --primary-light  : rgba(255,255,255,0.06);
+    --primary-glow   : rgba(255,255,255,0.12);
+    --secondary      : #888888;
+    --accent         : #0070f3;
+
+    /* ── Semantic states (dark) ─────────────────────────────────────────────── */
+    --success-bg     : rgba(0,112,243,0.12);
+    --warning-bg     : rgba(245,166,35,0.12);
+    --danger-bg      : rgba(238,0,0,0.12);
+
+    /* ── Text ───────────────────────────────────────────────────────────────── */
+    --text-primary   : #ffffff;
+    --text-secondary : #888888;
+    --text-muted     : #666666;
+
+    /* ── Borders ────────────────────────────────────────────────────────────── */
+    --border         : #222222;          /* Crisp Vercel dark borders */
+    --border-strong  : #333333;
+    --border-subtle  : #0f0f0f;
+
+    /* ── Shadows ────────────────────────────────────────────────────────────── */
+    --shadow-xs      : 0 0 0 1px #222222;
+    --shadow-sm      : 0 0 0 1px #222222, 0 2px 4px rgba(0,0,0,0.4);
+    --shadow-md      : 0 0 0 1px #222222, 0 8px 24px rgba(0,0,0,0.5);
+    --shadow-lg      : 0 0 0 1px #222222, 0 16px 40px rgba(0,0,0,0.6);
+    --shadow-xl      : 0 0 0 1px #222222, 0 24px 60px rgba(0,0,0,0.8);
+
+    /* Backward-compat */
+    --bg             : var(--surface);
+    --card           : var(--surface-2);
+    --text           : var(--text-primary);
+    --muted          : var(--text-secondary);
+    --border-color   : var(--border);
+    --shadow         : var(--shadow-xs);
+    --shadow-hover   : var(--shadow-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+═══════════════════════════════════════════════════════════════════════════ */
+.t-primary   { color: var(--text-primary)   !important; }
+.t-secondary { color: var(--text-secondary) !important; }
+.t-muted     { color: var(--text-muted)     !important; }
+.t-accent    { color: var(--accent)         !important; }
+
+/* Status chips */
+.chip {
+    display:        inline-flex;
+    align-items:    center;
+    gap:            5px;
+    padding:        3px 10px;
+    border-radius:  var(--radius-pill);
+    font-size:      var(--text-xs);
+    font-weight:    600;
+    letter-spacing: 0.4px;
+}
+.chip--success { background: var(--success-bg); color: var(--success); }
+.chip--warning { background: var(--warning-bg); color: var(--warning); }
+.chip--danger  { background: var(--danger-bg);  color: var(--danger);  }
+.chip--info    { background: var(--info-bg);    color: var(--info);    }

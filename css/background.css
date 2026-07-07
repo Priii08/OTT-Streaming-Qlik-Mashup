@@ -1,0 +1,60 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   background.css  —  Animated Background Paths (21st.dev @kokonutd style)
+   Flowing SVG bezier curves that animate slowly across the full page.
+   Stays behind all content via z-index: 0 / pointer-events: none.
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Canvas layer ───────────────────────────────────────────────────── */
+#bg-paths-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+#bg-paths-canvas svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Individual animated paths ──────────────────────────────────────── */
+.bg-path {
+    fill: none;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    opacity: 0;
+    stroke: rgba(99, 102, 241, 0.20);
+    animation: bg-path-draw var(--bg-dur, 25s) linear var(--bg-delay, 0s) infinite;
+}
+
+body.dark .bg-path {
+    stroke: rgba(139, 92, 246, 0.25);
+}
+
+/* ── Draw-in animation ──────────────────────────────────────────────── */
+/* 
+   stroke-dasharray is set per-path by JS.
+   We animate stroke-dashoffset from full-length to 0 (draws the path)
+   then fade out at the end. 
+*/
+@keyframes bg-path-draw {
+    0%   { stroke-dashoffset: 2000; opacity: 0; }
+    5%   { opacity: 1; }
+    85%  { opacity: 0.8; }
+    100% { stroke-dashoffset: -2000; opacity: 0; }
+}
+
+/* ── Slow global SVG drift ──────────────────────────────────────────── */
+#bg-paths-canvas svg {
+    animation: bg-canvas-breathe 45s ease-in-out infinite alternate;
+}
+
+@keyframes bg-canvas-breathe {
+    0%   { transform: translate(0px,   0px)  scale(1.00); }
+    33%  { transform: translate(-8px,  6px)  scale(1.02); }
+    66%  { transform: translate(10px, -4px)  scale(1.01); }
+    100% { transform: translate(-4px,  8px)  scale(1.015); }
+}

@@ -1,0 +1,98 @@
+/**
+ * charts.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Chart container sizing and skeleton loader states.
+ * ECharts is initialised on the bare div elements — they must have
+ * explicit height for ECharts to render correctly.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHART CONTAINERS
+   These IDs match the DOM in OTTStreamingPlatform.html
+───────────────────────────────────────────────────────────────────────────── */
+#platformDistChart,
+#contentReleaseTrendChart,
+#genreTreemapChart,
+#imdbVsRTChart,
+#countryAnalysisChart,
+#contentGrowthRatingChart {
+    width:   100%;
+    height:  340px;
+    display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SKELETON / LOADING STATE
+   Applied by ChartsManager._showSkeleton() while hypercube data loads
+───────────────────────────────────────────────────────────────────────────── */
+.chart-skeleton {
+    background:      linear-gradient(
+        90deg,
+        var(--border) 25%,
+        rgba(255,255,255,0.07) 50%,
+        var(--border) 75%
+    );
+    background-size: 600px 100%;
+    animation:       shimmer 1.8s ease-in-out infinite;
+    border-radius:   12px;
+}
+
+body.dark .chart-skeleton {
+    background: linear-gradient(
+        90deg,
+        #1e293b 25%,
+        rgba(255,255,255,0.04) 50%,
+        #1e293b 75%
+    );
+    background-size: 600px 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ECHARTS CANVAS — make sure it fills parent
+───────────────────────────────────────────────────────────────────────────── */
+#platformDistChart        canvas,
+#contentReleaseTrendChart canvas,
+#genreTreemapChart        canvas,
+#imdbVsRTChart            canvas,
+#countryAnalysisChart     canvas,
+#contentGrowthRatingChart canvas {
+    border-radius: var(--radius-sm);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUPPRESS DEFAULT QLIK OBJECT BORDERS if any getObject leftover is visible
+───────────────────────────────────────────────────────────────────────────── */
+.qv-object,
+.qv-inner-object,
+.qv-object-kpi,
+.qv-object-content-container {
+    border:     none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE HEIGHT ADJUSTMENTS
+───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    #platformDistChart,
+    #contentReleaseTrendChart,
+    #genreTreemapChart,
+    #imdbVsRTChart,
+    #countryAnalysisChart,
+    #contentGrowthRatingChart {
+        height: 280px;
+    }
+}
+
+@media (max-width: 700px) {
+    #platformDistChart,
+    #contentReleaseTrendChart,
+    #genreTreemapChart,
+    #imdbVsRTChart,
+    #countryAnalysisChart,
+    #contentGrowthRatingChart {
+        height: 220px;
+    }
+}

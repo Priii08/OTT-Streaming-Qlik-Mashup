@@ -1,0 +1,216 @@
+/**
+ * cards.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Clean Minimal Vercel-inspired KPI and Chart Card Layouts.
+ * razor-thin borders · sharp corners · exact screenshot dimensions.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KPI LAYOUT
+═══════════════════════════════════════════════════════════════════════════ */
+.kpi-container {
+    display:               grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap:                   16px;
+    margin:                0 0 24px;
+}
+
+.kpi-card {
+    background:    linear-gradient(135deg, var(--surface-2) 0%, var(--surface-3) 100%);
+    border:        1px solid var(--border);
+    border-radius: 16px;
+    overflow:      hidden;
+    position:      relative;
+    box-shadow:    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition:    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                   border-color 0.3s ease,
+                   box-shadow 0.3s ease;
+    box-sizing:    border-box;
+}
+.kpi-card:hover {
+    transform:    translateY(-6px);
+    border-color: var(--kpi-accent, var(--primary));
+    box-shadow:   0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                  0 10px 10px -5px rgba(0, 0, 0, 0.04),
+                  0 0 20px var(--primary-glow);
+}
+.kpi-card:hover .kpi-icon-wrap svg {
+    transform: scale(1.15) rotate(5deg);
+}
+.kpi-icon-wrap svg {
+    transition: transform var(--transition) ease;
+}
+
+/* Bottom accent color strip as seen in the screenshot */
+.kpi-card::after {
+    content:  "";
+    position: absolute;
+    bottom:   0;
+    left:     0;
+    right:    0;
+    height:   4px;
+    background: var(--kpi-accent, var(--primary));
+}
+
+/* ── KPI Inner Layout ── */
+.kpi-inner {
+    padding:        20px 22px 24px; /* extra bottom spacing for color bar */
+    display:        flex;
+    flex-direction: column;
+    gap:            12px;
+    position:       relative;
+    box-sizing:     border-box;
+}
+
+.kpi-header {
+    display:         flex;
+    justify-content: space-between;
+    align-items:     center;
+    width:           100%;
+}
+
+.kpi-label {
+    font-size:      0.72rem;
+    font-weight:    700;
+    color:          var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* SVG icon on the right */
+.kpi-icon-wrap {
+    width:           36px;
+    height:          36px;
+    border-radius:   8px;
+    background:      var(--primary-light);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    color:           var(--kpi-color, var(--primary));
+    flex-shrink:     0;
+}
+
+.kpi-icon-wrap svg {
+    width:  18px;
+    height: 18px;
+}
+
+/* KPI value */
+.kpi-value {
+    font-size:      2.1rem;
+    font-weight:    800;
+    color:          var(--text-primary);
+    line-height:    1.05;
+    letter-spacing: -1px;
+}
+
+/* Subtitle at the bottom */
+.kpi-subtitle {
+    font-size:   0.78rem;
+    font-weight: 500;
+    color:       var(--text-secondary);
+    margin-top:  -4px;
+}
+
+/* Shimmer load overlay */
+.kpi-shimmer {
+    position:       absolute;
+    inset:          0 0 4px 0;
+    background:     linear-gradient(90deg, transparent 25%, var(--border) 50%, transparent 75%);
+    background-size: 300px 100%;
+    animation:      shimmer 1.8s infinite;
+    pointer-events: none;
+    opacity:        0.15;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHART CARDS (3-column grid — 2 rows of 3 matching screenshot)
+═══════════════════════════════════════════════════════════════════════════ */
+.charts {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   20px;
+}
+
+@media (max-width: 1300px) {
+    .charts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .charts {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-card {
+    background:    linear-gradient(135deg, var(--surface-2) 0%, var(--surface-3) 100%);
+    border:        1px solid var(--border);
+    border-radius: 16px;
+    padding:       20px 22px 18px;
+    box-shadow:    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow:      hidden;
+    transition:    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                   border-color 0.3s ease,
+                   box-shadow 0.3s ease;
+    box-sizing:    border-box;
+}
+.chart-card:hover {
+    transform:    translateY(-6px);
+    border-color: var(--primary);
+    box-shadow:   0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                  0 10px 10px -5px rgba(0, 0, 0, 0.04),
+                  0 0 20px var(--primary-glow);
+}
+
+.chart-card > h3 {
+    margin:         0 0 14px;
+    font-size:      0.88rem;
+    font-weight:    700;
+    color:          var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display:        flex;
+    align-items:    center;
+    justify-content: space-between;
+}
+
+/* Small visual pill tags like "LINE", "BAR", "DONUT" inside card titles */
+.chart-card > h3::after {
+    content:        var(--chart-type, "VIS");
+    font-size:      0.65rem;
+    font-weight:    800;
+    padding:        3px 8px;
+    border-radius:  4px;
+    background:     var(--primary-light);
+    color:          var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+/* Hide Qlik elements titles */
+.chart-card .qv-object-title,
+.chart-card .qv-subtitle-container,
+.chart-card .lui-title {
+    display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SKELETON LOADERS
+═══════════════════════════════════════════════════════════════════════════ */
+.skeleton-line {
+    background:      linear-gradient(90deg, var(--border) 25%, var(--border-strong) 50%, var(--border) 75%);
+    background-size: 300px 100%;
+    animation:       shimmer 1.6s infinite;
+    border-radius:   4px;
+    color:           transparent !important;
+    min-height:      32px;
+    min-width:       60px;
+    display:         inline-block;
+}
+
+@keyframes shimmer {
+    0%   { background-position: -150px 0; }
+    100% { background-position: 150px 0; }
+}

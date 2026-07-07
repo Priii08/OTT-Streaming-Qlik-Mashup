@@ -1,0 +1,60 @@
+/**
+ * animations.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Keyframe definitions for:
+ *  - shimmer  : skeleton loader shimmer sweep
+ *  - fadeIn   : gentle opacity entrance
+ *  - slideUp  : card entrance from below
+ *  - pulse    : soft pulsing glow (loading state)
+ *  - countUp  : KPI value counter reveal
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ── Shimmer sweep (skeleton loader background animation) ── */
+@keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position:  400px 0; }
+}
+
+/* ── Fade in from fully transparent ── */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ── Slide up + fade in (card entrance) ── */
+@keyframes slideUp {
+    from {
+        opacity:   0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity:   1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Soft pulse glow for loading states ── */
+@keyframes pulse {
+    0%,100% { opacity: 1;    }
+    50%      { opacity: 0.45; }
+}
+
+/* ── KPI value pop-in ── */
+@keyframes kpiPop {
+    0%   { opacity: 0; transform: scale(0.82) translateY(6px); }
+    70%  { transform: scale(1.04) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Rotate (spinner fallback) ── */
+@keyframes spin {
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
+}
+
+/* ── Utility classes that consume the keyframes ── */
+.anim-fade-in  { animation: fadeIn  0.45s ease both; }
+.anim-slide-up { animation: slideUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-pulse    { animation: pulse   1.6s ease-in-out infinite; }
+.anim-spin     { animation: spin    0.9s linear infinite; }
