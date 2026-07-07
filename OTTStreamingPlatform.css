@@ -39,22 +39,21 @@
     --font:          'Poppins', sans-serif;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════════ */
 body.dark {
-    --bg:           #0D1117;
-    --card:         #161B22;
-    --sidebar:      #161B22;
-    --text:         #F0F6FC;
-    --muted:        #8B949E;
-    --border:       #21262D;
-    --shadow:       0 4px 20px rgba(0,0,0,0.35);
-    --shadow-hover: 0 16px 36px rgba(0,0,0,0.50);
-    --shadow-card:  0 2px 12px rgba(0,0,0,0.30);
-    background:     linear-gradient(135deg, #090a0f 0%, #030303 50%, #090a0f 100%),
-                    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 40%) !important;
+    --bg:           #000000;
+    --card:         #0a0a0a;
+    --sidebar:      #0a0a0a;
+    --text:         #ffffff;
+    --muted:        #888888;
+    --border:       #222222;
+    --shadow:       0 0 0 1px #222222;
+    --shadow-hover: 0 0 0 1px #222222, 0 2px 4px rgba(0,0,0,0.4);
+    --shadow-card:  0 0 0 1px #222222;
+    background:     #000000 !important;
     background-attachment: fixed !important;
 }
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    GLOBAL RESET & BASE
