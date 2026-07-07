@@ -171,15 +171,22 @@ var FiltersManager = (function () {
             });
         }
 
-        // ── List object definition ───────────────────────────────────────────
+        // ── List object definition — both wrapped and unwrapped variants ─────
+        // Wrapped: expected by some Qlik versions (qListObjectDef outer key)
         var listDef = {
             qListObjectDef: {
                 qDef: { qFieldDefs: [cfg.fieldName] },
                 qShowAlternatives: true,
-                qFrequencyMode: 'NX_FREQUENCY_VALUE',
                 qInitialDataFetch: [{ qTop: 0, qLeft: 0, qWidth: 1, qHeight: 200 }]
             }
         };
+        // Unwrapped: used by some older Qlik Capability API versions directly
+        var listDefUnwrapped = {
+            qDef: { qFieldDefs: [cfg.fieldName] },
+            qShowAlternatives: true,
+            qInitialDataFetch: [{ qTop: 0, qLeft: 0, qWidth: 1, qHeight: 200 }]
+        };
+
 
         // ── DUAL-PATH (mirrors hypercube.js exactly) ─────────────────────────
         // Path A: session-object (Qlik ≥ June 2020 / enigma.js path)
@@ -224,21 +231,64 @@ var FiltersManager = (function () {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Capability API list — app.createList(def, callback)
-    // The callback is called immediately AND re-called on every engine change.
-    // This is the exact equivalent of app.createCube() used by hypercube.js.
-    // ─────────────────────────────────────────────────────────────────────────
     function _capabilityList(cfg, listDef) {
-        _app.createList(listDef, function (reply) {
-            // reply IS the qListObject (Capability API passes it unwrapped)
-            console.log('[FiltersManager] createList callback for', cfg.id,
-                        '— reply keys:', reply ? Object.keys(reply) : 'null');
-            _renderData(cfg, reply);
+        console.log('[FiltersManager] createList for', cfg.id);
+
+        // In this Qlik version, the createList callback passes a plain layout
+        // stub: qListObject exists but qDataPages is [] (qInitialDataFetch ignored).
+        // Solution: grab the qInfo.qId from the stub, then use app.getObject()
+        // to get the real model with getLayout() + on('changed').
+        _app.createList(listDef, function (stub) {
+            var qId = stub && stub.qInfo && stub.qInfo.qId;
+            console.log('[FiltersManager] stub received for', cfg.id,
+                        '| qId:', qId,
+                        '| qDataPages len:', stub && stub.qListObject &&
+                        stub.qListObject.qDataPages ? stub.qListObject.qDataPages.length : 'n/a');
+
+            if (!qId) {
+                console.error('[FiltersManager] No qId in stub for', cfg.id, '— cannot proceed');
+                return;
+            }
+
+            // Use app.getObject(qId) to get the live model
+            _app.getObject(qId).then(function (model) {
+                console.log('[FiltersManager] getObject model for', cfg.id,
+                            '| has getLayout:', typeof model.getLayout === 'function');
+                _activeLists.push(model);
+
+                function _fetch() {
+                    model.getLayout().then(function (layout) {
+                        var dp = layout && layout.qListObject && layout.qListObject.qDataPages;
+                        console.log('[FiltersManager] layout fetched for', cfg.id,
+                                    '| rows:', dp && dp[0] ? dp[0].qMatrix.length : 0);
+                        _renderData(cfg, layout);
+                    }).catch(function (err) {
+                        console.warn('[FiltersManager] getLayout error for', cfg.id, err);
+                    });
+                }
+
+                model.on('changed', _fetch);
+                _fetch();
+
+            }).catch(function (err) {
+                console.warn('[FiltersManager] getObject failed for', cfg.id,
+                             '— trying unwrapped createList:', err);
+                // Try the unwrapped listDef as a last resort
+                _capabilityListUnwrapped(cfg, listDefUnwrapped);
+            });
         });
     }
 
-
+    // Fallback: try createList with the listObjectDef UNWRAPPED (no qListObjectDef key)
+    // Some Qlik Capability API versions expect the def content directly.
+    function _capabilityListUnwrapped(cfg, listDefUnwrapped) {
+        console.log('[FiltersManager] Trying unwrapped createList for', cfg.id);
+        _app.createList(listDefUnwrapped, function (reply) {
+            console.log('[FiltersManager] Unwrapped reply for', cfg.id,
+                        '| keys:', reply ? Object.keys(reply).join(',') : 'null');
+            _renderData(cfg, reply);
+        });
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // Render the Qlik filter data (pills + list options)
@@ -251,12 +301,25 @@ var FiltersManager = (function () {
         var accordionEl = document.getElementById('accordion-' + cfg.id);
         if (!pillsContainer || !optionsContainer) return;
 
-        // reply may be the raw QListObject (createList callback) or a full layout
-        // from getLayout() which wraps it as { qListObject: {...} }. Handle both.
-        var list   = (reply && reply.qListObject) ? reply.qListObject : reply;
+        // ── Defensive reply parsing — Qlik API returns different shapes ────────
+        // Shape 1: getLayout() / session object → { qListObject: { qDataPages:[...] } }
+        // Shape 2: createList callback (some versions) → { qListObject: {...} }
+        // Shape 3: createList callback (other versions) → qListObject directly
+        var list = null;
+        if (reply && reply.qListObject) {
+            list = reply.qListObject;               // shapes 1 & 2
+        } else if (reply && reply.qDataPages) {
+            list = reply;                            // shape 3 — IS the qListObject
+        } else if (reply && reply.layout && reply.layout.qListObject) {
+            list = reply.layout.qListObject;        // enigma.js model layout
+        }
+
         var matrix = (list && list.qDataPages && list.qDataPages[0])
                      ? list.qDataPages[0].qMatrix
                      : [];
+
+        console.log('[FiltersManager]', cfg.id, '→ matrix rows:', matrix.length,
+                    '| reply type:', reply ? (reply.qListObject ? 'wrapped' : (reply.qDataPages ? 'direct' : 'unknown')) : 'null');
 
         // Determine if any item is currently Selected
         var selectedItems = matrix.filter(function (row) { return row[0].qState === 'S'; });

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/cards.css">          <!-- 4. KPI + chart card styles -->
     <link rel="stylesheet" href="css/charts.css">         <!-- 5. Chart container sizing + skeleton -->
     <link rel="stylesheet" href="css/filters.css">        <!-- 6. Filter panel dark theme -->
-    <link rel="stylesheet" href="css/background.css">    <!-- 7. Animated background paths -->
+
 
     <!-- ── Apache ECharts v5 ────────────────────────────────────────────── -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
@@ -29,7 +29,7 @@
 
     <!-- ── Dashboard JS modules (dependency order is critical) ──────────── -->
     <!--  Level 0: no dependencies -->
-    <script src="js/background.js"></script>  <!-- Animated background paths (no deps) -->
+
     <script src="js/adapters.js"></script>    <!-- Fields, Measures, Dims, DataAdapters -->
     <script src="js/utils.js"></script>       <!-- formatNumber, ResizeObserver, debounce -->
 
@@ -49,9 +49,7 @@
 
 <body>
 
-<!-- ── Animated background paths — inserted programmatically by background.js ── -->
-<div id="bg-paths-canvas"></div>
-<script>BackgroundPaths.init();</script>
+
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      TOP HEADER
