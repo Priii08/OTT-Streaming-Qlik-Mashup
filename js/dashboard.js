@@ -39,7 +39,10 @@ var Dashboard = (function () {
         // 2. Filter objects — embedded Qlik listboxes (preserves associative engine)
         FiltersManager.init(app);
 
-        // 3. KPI cards — aggregate session objects, live on selection change
+        // 3. Interactive Hero Section
+        HeroManager.init(app);
+
+        // 4. KPI cards — aggregate session objects, live on selection change
         KPIManager.init();
 
         // 4. Chart session objects — one per chart, live updates

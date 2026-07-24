@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/cards.css">          <!-- 4. KPI + chart card styles -->
     <link rel="stylesheet" href="css/charts.css">         <!-- 5. Chart container sizing + skeleton -->
     <link rel="stylesheet" href="css/filters.css">        <!-- 6. Filter panel dark theme -->
+    <link rel="stylesheet" href="css/landing.css">       <!-- 7. Interactive landing page -->
 
 
     <!-- ── Apache ECharts v5 ────────────────────────────────────────────── -->
@@ -41,13 +42,159 @@
     <script src="js/charts.js"></script>      <!-- ChartsManager -->
     <script src="js/filters.js"></script>     <!-- FiltersManager -->
     <script src="js/theme.js"></script>       <!-- ThemeManager -->
+    <script src="js/hero.js"></script>        <!-- HeroManager -->
     <script src="js/dashboard.js"></script>   <!-- Orchestrator -->
 
     <!--  Bootstrap: opens Qlik app, calls Dashboard.init(app) -->
+    <script src="js/landing.js"></script>       <!-- Landing splash page controller -->
     <script src="OTTStreamingPlatform.js"></script>
 </head>
 
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     LANDING PAGE — Animated splash shown before the main dashboard
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="landing-page" role="main" aria-label="StreamMetrics welcome screen">
+
+    <!-- ── Top Navigation Bar ─────────────────────────────────────────────── -->
+    <header class="landing-topbar">
+        <!-- Brand -->
+        <div class="landing-topbar-brand">
+            <div class="landing-topbar-logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+            </div>
+            <span class="landing-topbar-name">StreamMetrics</span>
+        </div>
+        <!-- Middle nav links -->
+        <nav class="landing-topbar-nav" aria-label="Site navigation">
+            <button class="landing-toplink" id="btnLandingAbout">About</button>
+            <button class="landing-toplink" id="btnLandingFeatures">Features</button>
+            <button class="landing-toplink" id="btnLandingDocs">Documentation</button>
+        </nav>
+        <!-- Auth buttons -->
+        <div class="landing-topbar-auth">
+            <button class="landing-auth-ghost" id="btnLandingLogin" aria-label="Log in">Log In</button>
+            <button class="landing-auth-solid" id="btnLandingSignup" aria-label="Sign up">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- Animated background orbs -->
+    <div class="landing-bg-orbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- Glowing fluid ring/halo behind active elements -->
+    <div class="landing-glow-halo" id="landingHalo" aria-hidden="true"></div>
+
+    <!-- ── Main Center Content ───────────────────────────────────────────── -->
+    <div class="landing-content">
+
+        <!-- Eyebrow badge -->
+        <div class="landing-eyebrow">
+            <span class="landing-eyebrow-dot"></span>
+            Live Analytics · Qlik Sense
+        </div>
+
+        <!-- App name headline — "StreamMetrics" highlighted with gradient -->
+        <h1 class="landing-headline">
+            <span class="headline-static">Welcome to</span>
+            <span class="headline-brand">StreamMetrics</span>
+        </h1>
+
+        <!-- Subtitle with typewriter -->
+        <p class="landing-subtitle">
+            Your complete hub for
+            <span class="headline-dynamic" id="landing-typewriter"></span><span class="typewriter-cursor" aria-hidden="true"></span>
+        </p>
+
+        <!-- Dynamic Platform Showcase Cards Grid -->
+        <div class="landing-showcase-row" aria-label="Streaming platforms selection">
+            <!-- Netflix -->
+            <div class="showcase-card platform-netflix" data-platform="Netflix" data-titles="6,131" data-trend="↑ 12% Netflix growth" data-color="#e50914" data-desc="streaming data, catalog updates, global content trends">
+                <div class="showcase-card-glow"></div>
+                <div class="showcase-logo">N</div>
+                <span class="showcase-name">Netflix</span>
+            </div>
+            <!-- Prime Video -->
+            <div class="showcase-card platform-prime" data-platform="Prime Video" data-titles="9,655" data-trend="↑ 8% Prime growth" data-color="#00a8e1" data-desc="platform insights, user satisfaction, runtime averages">
+                <div class="showcase-card-glow"></div>
+                <div class="showcase-logo">P</div>
+                <span class="showcase-name">Prime Video</span>
+            </div>
+            <!-- Disney+ -->
+            <div class="showcase-card platform-disney" data-platform="Disney+" data-titles="1,450" data-trend="↑ 21% Disney growth" data-color="#0f3582" data-desc="content analytics, family ratings, IMDB distribution">
+                <div class="showcase-card-glow"></div>
+                <div class="showcase-logo">D+</div>
+                <span class="showcase-name">Disney+</span>
+            </div>
+            <!-- Hulu -->
+            <div class="showcase-card platform-hulu" data-platform="Hulu" data-titles="2,890" data-trend="↑ 5% Hulu growth" data-color="#1ce783" data-desc="ratings & trends, release timelines, genre treemaps">
+                <div class="showcase-card-glow"></div>
+                <div class="showcase-logo">H</div>
+                <span class="showcase-name">Hulu</span>
+            </div>
+            <!-- Apple TV+ -->
+            <div class="showcase-card platform-apple" data-platform="Apple TV+" data-titles="320" data-trend="↑ 34% Apple growth" data-color="#bbbbbb" data-desc="award ratings, premium originals, audience response">
+                <div class="showcase-card-glow"></div>
+                <div class="showcase-logo">🍎</div>
+                <span class="showcase-name">Apple TV+</span>
+            </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="landing-stats" aria-label="Dashboard statistics">
+            <div class="landing-stat">
+                <div class="landing-stat-value" id="landing-stat-titles">0</div>
+                <div class="landing-stat-label">Total Titles</div>
+            </div>
+            <div class="landing-stat">
+                <div class="landing-stat-value" id="landing-stat-platforms">0</div>
+                <div class="landing-stat-label">OTT Platforms</div>
+            </div>
+            <div class="landing-stat">
+                <div class="landing-stat-value" id="landing-stat-countries">0</div>
+                <div class="landing-stat-label">Countries</div>
+            </div>
+        </div>
+
+        <!-- Single CTA -->
+        <div class="landing-cta-center">
+            <button id="btnEnterDashboard" class="landing-nav-btn landing-nav-primary" aria-label="Launch the StreamMetrics analytics dashboard">
+                <svg class="btn-enter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Launch Dashboard
+            </button>
+        </div>
+
+    </div><!-- /.landing-content -->
+
+    <!-- Scroll hint -->
+    <div class="landing-scroll-hint" aria-hidden="true">
+        <div class="scroll-mouse">
+            <div class="scroll-mouse-dot"></div>
+        </div>
+        <span>scroll to explore</span>
+    </div>
+    <!-- ── Landing Info/Auth Modal ───────────────────────────────────────── -->
+    <div id="landing-modal" class="landing-modal-overlay" style="display:none;" aria-hidden="true">
+        <div class="landing-modal-card">
+            <button id="closeLandingModal" class="landing-modal-close" aria-label="Close modal">&times;</button>
+            <div class="landing-modal-header-icon" id="landingModalIcon">
+                <!-- Dynamic SVG icon -->
+            </div>
+            <h3 id="landingModalTitle">StreamMetrics Info</h3>
+            <div id="landingModalBody" class="landing-modal-body"></div>
+        </div>
+    </div>
+
+</div><!-- /#landing-page -->
+
+
+
+
 
 
 
@@ -109,6 +256,25 @@
     <div class="filter-container"></div>
 
     <div class="main-dashboard-content">
+        <!-- ── HERO SECTION ────────────────────────────────────────────────── -->
+        <div class="hero-section anim-slide-up" style="animation-delay: 0.05s">
+            <div class="hero-content">
+                <h1 id="hero-greeting">Welcome back, Priyanshi!</h1>
+                <p id="hero-subtitle">Welcome to your streaming insights workspace. Discover cross-platform distribution, ratings, and runtime analytics across major OTT networks.</p>
+                <div class="hero-meta">
+                    <span class="meta-item">
+                        <span class="meta-dot"></span>
+                        Active Selections: <strong id="active-selections-count">All Data</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <button id="btnQuickTour" class="hero-btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    Interactive Tour
+                </button>
+            </div>
+        </div>
         <!-- ── KPI CARDS ─────────────────────────────────────────────────────────
              Inner HTML is injected by KPIManager.init() via kpi.js.
              No h3 here — labels are rendered inside each card by the KPI module.
@@ -161,6 +327,25 @@
     </div><!-- /.main-dashboard-content -->
 
 </div><!-- /.content-wrapper -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════════════════════ -->
+<footer class="dashboard-footer anim-slide-up" style="animation-delay: 1.05s">
+    <div class="footer-left">
+        <span class="footer-copyright">© 2026 StreamMetrics. All rights reserved.</span>
+        <span class="footer-divider">|</span>
+        <span class="footer-status">
+            <span class="status-dot-active"></span>
+            Data Synced: Live from Qlik Engine
+        </span>
+    </div>
+    <div class="footer-right">
+        <span class="footer-author">Developed by <strong>Priyanshi Varshney</strong></span>
+        <span class="footer-divider">|</span>
+        <span class="footer-institution">UPES, Dehradun</span>
+    </div>
+</footer>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      ERROR POPUP — preserved from original mashup

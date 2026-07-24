@@ -23,24 +23,22 @@ var FiltersManager = (function () {
     // Registry of active list object models (for cleanup / change listeners)
     var _activeLists = [];
 
-    // Open/collapse state of each filter (Platform and Content Type open by default)
+    // Open/collapse state of each filter (Platform open by default)
     var _collapsed = {
         'Platforms': false,
-        'Type': false,
-        'Genres': true,
-        'Country': true,
-        'Year': true
+        'Year': true,
+        'Age': true,
+        'Country': true
     };
 
     // ─────────────────────────────────────────────────────────────────────────
-    // Filter configuration
+    // Filter configuration (Matches original Qlik Sense app filters exactly)
     // ─────────────────────────────────────────────────────────────────────────
     var CONFIGS = [
         {
             id: 'Platforms',
             title: 'PLATFORM',
             fieldName: 'Platforms',
-            pills: ['All', 'Netflix', 'Prime Video', 'Disney+', 'Hulu'],
             colorMap: {
                 'Netflix': '#e50914',
                 'Prime Video': '#00a8e1',
@@ -49,28 +47,19 @@ var FiltersManager = (function () {
             }
         },
         {
-            id: 'Type',
-            title: 'CONTENT TYPE',
-            fieldName: 'Type',
-            pills: ['All', 'Movie', 'TV Show']
+            id: 'Year',
+            title: 'RELEASE YEAR',
+            fieldName: 'Year'
         },
         {
-            id: 'Genres',
-            title: 'GENRE',
-            fieldName: 'Genres',
-            pills: ['All', 'Drama', 'Comedy', 'Action', 'Documentaries']
+            id: 'Age',
+            title: 'AGE RATING',
+            fieldName: 'Age'
         },
         {
             id: 'Country',
             title: 'COUNTRY',
-            fieldName: 'Country',
-            pills: ['All', 'United States', 'India', 'United Kingdom', 'Canada']
-        },
-        {
-            id: 'Year',
-            title: 'RELEASE YEAR',
-            fieldName: 'Year',
-            pills: ['All', '2021', '2020', '2019', '2018']
+            fieldName: 'Country'
         }
     ];
 
@@ -96,6 +85,13 @@ var FiltersManager = (function () {
             '      <line x1="17" y1="16" x2="23" y2="16"></line>' +
             '    </svg>' +
             '    <span>Filters</span>' +
+            '    <!-- Icon-only sidebar collapse toggle -->' +
+            '    <button id="btnToggleCompact" class="sidebar-collapse-btn" aria-label="Toggle sidebar" title="Toggle sidebar">' +
+            '      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>' +
+            '        <line x1="9" y1="3" x2="9" y2="21"></line>' +
+            '      </svg>' +
+            '    </button>' +
             '  </div>' +
             '  <button id="clearAllFilters" class="filter-clear-btn">' +
             '    ✕  Clear All' +
@@ -108,6 +104,19 @@ var FiltersManager = (function () {
         if (clearBtn) {
             clearBtn.addEventListener('click', _clearAll);
         }
+
+        // Wire sidebar collapse toggle (same logic as HeroManager used to own)
+        var collapseBtn     = document.getElementById('btnToggleCompact');
+        var contentWrapper  = document.querySelector('.content-wrapper');
+        if (collapseBtn && contentWrapper) {
+            collapseBtn.addEventListener('click', function () {
+                contentWrapper.classList.toggle('sidebar-collapsed');
+                setTimeout(function () {
+                    window.dispatchEvent(new Event('resize'));
+                }, 300);
+            });
+        }
+
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -139,7 +148,7 @@ var FiltersManager = (function () {
         var accordionList = document.querySelector('.accordion-list');
         if (!accordionList) return;
 
-        // Render accordion item skeleton
+        // Render accordion item skeleton (without the quick-select pills container)
         var itemDiv = document.createElement('div');
         itemDiv.className = 'accordion-item' + (_collapsed[cfg.id] ? ' collapsed' : '');
         itemDiv.id = 'accordion-' + cfg.id;
@@ -151,13 +160,12 @@ var FiltersManager = (function () {
             '  </svg>' +
             '</div>' +
             '<div class="accordion-content">' +
-            '  <div class="pills-container" id="pills-' + cfg.id + '"></div>' +
-            '  <div class="clear-btn-container" id="clear-container-' + cfg.id + '"></div>' +
             '  <div class="options-list" id="options-' + cfg.id + '">' +
             '    <div class="filter-skeleton-line"></div>' +
             '    <div class="filter-skeleton-line" style="width:75%"></div>' +
             '    <div class="filter-skeleton-line" style="width:60%"></div>' +
             '  </div>' +
+            '  <div class="clear-btn-container" id="clear-container-' + cfg.id + '"></div>' +
             '</div>';
 
         accordionList.appendChild(itemDiv);
@@ -222,84 +230,45 @@ var FiltersManager = (function () {
                 .catch(function (err) {
                     // Fall through to Capability API on failure
                     console.warn('[FiltersManager] createChild failed for', cfg.id, '— using Capability API:', err);
-                    _capabilityList(cfg, listDef);
+                    _capabilityList(cfg, listDefUnwrapped);
                 });
 
         } else {
             // ── PATH B: Capability API ────────────────────────────────────────
-            _capabilityList(cfg, listDef);
+            _capabilityList(cfg, listDefUnwrapped);
         }
     }
 
-    function _capabilityList(cfg, listDef) {
+    function _capabilityList(cfg, listDefUnwrapped) {
         console.log('[FiltersManager] createList for', cfg.id);
 
-        // In this Qlik version, the createList callback passes a plain layout
-        // stub: qListObject exists but qDataPages is [] (qInitialDataFetch ignored).
-        // Solution: grab the qInfo.qId from the stub, then use app.getObject()
-        // to get the real model with getLayout() + on('changed').
-        _app.createList(listDef, function (stub) {
-            var qId = stub && stub.qInfo && stub.qInfo.qId;
-            console.log('[FiltersManager] stub received for', cfg.id,
-                        '| qId:', qId,
-                        '| qDataPages len:', stub && stub.qListObject &&
-                        stub.qListObject.qDataPages ? stub.qListObject.qDataPages.length : 'n/a');
-
-            if (!qId) {
-                console.error('[FiltersManager] No qId in stub for', cfg.id, '— cannot proceed');
-                return;
-            }
-
-            // Use app.getObject(qId) to get the live model
-            _app.getObject(qId).then(function (model) {
-                console.log('[FiltersManager] getObject model for', cfg.id,
-                            '| has getLayout:', typeof model.getLayout === 'function');
-                _activeLists.push(model);
-
-                function _fetch() {
-                    model.getLayout().then(function (layout) {
-                        var dp = layout && layout.qListObject && layout.qListObject.qDataPages;
-                        console.log('[FiltersManager] layout fetched for', cfg.id,
-                                    '| rows:', dp && dp[0] ? dp[0].qMatrix.length : 0);
-                        _renderData(cfg, layout);
-                    }).catch(function (err) {
-                        console.warn('[FiltersManager] getLayout error for', cfg.id, err);
-                    });
-                }
-
-                model.on('changed', _fetch);
-                _fetch();
-
-            }).catch(function (err) {
-                console.warn('[FiltersManager] getObject failed for', cfg.id,
-                             '— trying unwrapped createList:', err);
-                // Try the unwrapped listDef as a last resort
-                _capabilityListUnwrapped(cfg, listDefUnwrapped);
-            });
-        });
-    }
-
-    // Fallback: try createList with the listObjectDef UNWRAPPED (no qListObjectDef key)
-    // Some Qlik Capability API versions expect the def content directly.
-    function _capabilityListUnwrapped(cfg, listDefUnwrapped) {
-        console.log('[FiltersManager] Trying unwrapped createList for', cfg.id);
-        _app.createList(listDefUnwrapped, function (reply) {
-            console.log('[FiltersManager] Unwrapped reply for', cfg.id,
-                        '| keys:', reply ? Object.keys(reply).join(',') : 'null');
+        var promise = _app.createList(listDefUnwrapped, function (reply) {
+            console.log('[FiltersManager] reply received for', cfg.id,
+                        '| qDataPages len:', reply && reply.qListObject &&
+                        reply.qListObject.qDataPages ? reply.qListObject.qDataPages.length : 'n/a');
             _renderData(cfg, reply);
         });
+
+        if (promise && typeof promise.then === 'function') {
+            promise.then(function (model) {
+                _activeLists.push(model);
+            }).catch(function (err) {
+                console.warn('[FiltersManager] createList failed for', cfg.id, err);
+            });
+        } else if (promise) {
+            _activeLists.push(promise);
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // Render the Qlik filter data (pills + list options)
+    // Render the Qlik filter data (list options)
     // Called both on initial load and on every 'changed' event.
     // ─────────────────────────────────────────────────────────────────────────
     function _renderData(cfg, reply) {
-        var pillsContainer = document.getElementById('pills-' + cfg.id);
         var clearContainer = document.getElementById('clear-container-' + cfg.id);
         var optionsContainer = document.getElementById('options-' + cfg.id);
         var accordionEl = document.getElementById('accordion-' + cfg.id);
-        if (!pillsContainer || !optionsContainer) return;
+        if (!optionsContainer) return;
 
         // ── Defensive reply parsing — Qlik API returns different shapes ────────
         // Shape 1: getLayout() / session object → { qListObject: { qDataPages:[...] } }
@@ -328,39 +297,6 @@ var FiltersManager = (function () {
         // Blue border on the accordion card when active
         if (accordionEl) {
             accordionEl.classList.toggle('has-selections', hasSelections);
-        }
-
-        // ── 1. RENDER QUICK SELECT PILLS ─────────────────────────────────────
-        pillsContainer.innerHTML = '';
-        if (cfg.pills && cfg.pills.length) {
-            cfg.pills.forEach(function (pillName) {
-                var isAll = pillName === 'All';
-                var isActive = isAll
-                    ? !hasSelections
-                    : selectedItems.some(function (row) { return row[0].qText === pillName; });
-
-                var pillSpan = document.createElement('span');
-                pillSpan.className = 'pill' + (isActive ? ' active' : '');
-                pillSpan.textContent = pillName;
-
-                pillSpan.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    if (isAll) {
-                        // Clear all selections for this field
-                        _app.field(cfg.fieldName).clear();
-                    } else {
-                        // Qlik Capability API: selectValues expects [{qText: string}] objects.
-                        // toggleMode=true allows accumulating selections (multi-select pills).
-                        _app.field(cfg.fieldName).selectValues(
-                            [{ qText: pillName }],
-                            true,   // toggleMode — true = add to existing selection
-                            false   // softLock — false = normal selection
-                        );
-                    }
-                });
-
-                pillsContainer.appendChild(pillSpan);
-            });
         }
 
         // ── 2. RENDER CLEAR FILTER BUTTON ────────────────────────────────────
@@ -398,7 +334,7 @@ var FiltersManager = (function () {
             // Platform-specific accent color for checkbox fill
             var customAccent = cfg.colorMap && cfg.colorMap[text]
                 ? cfg.colorMap[text]
-                : 'var(--primary)';
+                : '#6366f1';
 
             var isSelected = state === 'S';
             var isExcluded = state === 'X';
@@ -406,6 +342,7 @@ var FiltersManager = (function () {
             // Build item wrapper
             var itemLabel = document.createElement('label');
             itemLabel.className = 'option-item state-' + state;
+            itemLabel.style.setProperty('--accent-color', customAccent);
             if (isExcluded) {
                 itemLabel.style.opacity = '0.45';
                 itemLabel.style.pointerEvents = 'none';
