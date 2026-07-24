@@ -1,115 +1,175 @@
 # OTT Streaming Analytics Dashboard
 
-A modern, high-fidelity business intelligence dashboard built as a custom Qlik Sense Mashup. This application integrates active Qlik Sense visualizations into a bespoke corporate web interface, delivering real-time streaming data analytics with premium styling and interactive controls.
+A modern, high-fidelity business intelligence web application built as a custom **Qlik Sense Mashup**. This application integrates real-time Qlik Sense engine data into an interactive, enterprise-grade web interface featuring an immersive landing splash screen, custom modal dialogs, interactive guided tours, real-time associative filtering, and advanced Apache ECharts analytics visualizations with dark and light mode support.
 
 ---
 
-## Executive Summary
+## 📸 Visual Overview & Screenshots
 
-The OTT Streaming Analytics Dashboard serves as a comprehensive portal for tracking, monitoring, and evaluating digital content distribution metrics across global streaming services. It enables business analysts, content curators, and stakeholders to analyze cross-platform availability, user sentiment ratings, global content production density, and growth patterns through a unified interface.
+### 1. Landing Splash Page
+An interactive splash screen with animated typewriter subtitles, glowing platform showcase cards, real-time counter metrics, and seamless transition into the analytics dashboard.
 
----
-
-## Key Features
-
-### Dynamic Filtering & Associative Search
-*   **Visual Selection Indicators:** Color-coded accents aligned with platform brand identities (Netflix, Prime Video, Hulu, Disney+) in active filter selections.
-*   **Contextual Clear Controls:** Isolated inline clear options for individual filter categories alongside a global dashboard clear control.
-*   **Qlik Association Integrity:** Custom accordion filter lists bind directly to Qlik engine list objects, ensuring all exclusion, selection, and alternative states reflect in real-time.
-
-### KPI Cards
-*   **Count-up Animations:** Smooth numeric counter animations on load for all KPI values.
-*   **Four Core Metrics:** Total Titles, Global Coverage (Countries), Average IMDb Rating, and Average Runtime.
-
-### Analytics Visualizations
-*   Content Distribution by Platform (Bar Chart)
-*   Content Release Trend Over Time (Area Chart)
-*   Genre Distribution (Treemap)
-*   Top 10 Countries by Content Volume (Bar Chart)
-*   IMDb vs Rotten Tomatoes Analysis (Scatter Chart)
-*   Content Growth vs IMDb Rating (Dual-axis Chart)
-
-### UI & Theme
-*   Light & Dark Theme Toggle with persistent user preference.
-*   Modern responsive dashboard with glassmorphic sidebar filter panel.
-*   Smooth CSS animations for card entrances and hover states.
+![Landing Splash Screen](screenshots/landingPage.png)
 
 ---
 
-## Technologies Used
+### 2. User Authentication & Feature Modals
+Clean glassmorphic modal overlays supporting user login, registration, platform feature summaries, and interactive documentation.
 
-*   **Platform Engine:** Qlik Sense Enterprise / Qlik Dev Hub
-*   **Visualizations:** Apache ECharts v5
-*   **Base Technologies:** HTML5, CSS3 (Custom Properties, Grid, Flexbox), Vanilla JavaScript
-*   **Module System:** RequireJS
+![Authentication & Feature Modal](screenshots/login.png)
 
 ---
 
-## Project Structure
+### 3. Analytics Dashboard — Dark Theme (Default)
+The primary workspace in dark mode, showcasing personalized time-aware hero greetings, active selection tracking, quick interactive tour launcher, accordion filters, KPI cards, and chart grid.
+
+![Analytics Dashboard - Dark Theme](screenshots/dashboard-dark.png)
+
+---
+
+### 4. Analytics Dashboard — Light Theme
+Full light-mode theme switcher support powered by dynamic CSS custom properties for vibrant readability in high-ambient light environments.
+
+![Analytics Dashboard - Light Theme](screenshots/dashboard-light.png)
+
+---
+
+### 5. Advanced ECharts Analytics Visualizations
+Comprehensive interactive visual analytics including content distribution bar charts, multi-year release area trends, genre treemaps, top country rankings, IMDb vs. Rotten Tomatoes scatter plots, and dual-axis growth curves.
+
+![Apache ECharts Grid](screenshots/charts.png)
+
+---
+
+## 🚀 Key Features
+
+### 🌟 Interactive Landing Experience
+*   **Animated Typewriter Subtitle:** Dynamic rotating headlines highlighting streaming data, catalog insights, and rating trends.
+*   **Platform Showcase Cards:** Interactive cards for Netflix, Prime Video, Disney+, Hulu, and Apple TV+ displaying live catalog counts and growth indicators.
+*   **Animated Counter Statistics:** RequestAnimationFrame-powered counter animations displaying total titles (15,000+), supported OTT platforms (8), and country metrics (190+).
+*   **Smooth Scroll Parallax:** Parallax scroll and fade transitions guiding users seamlessly from splash to dashboard analytics.
+
+### 🔐 Auth & Dialog System
+*   **Pre-filled Demo Login:** Modal overlay supporting seamless login, registration, platform documentation, and feature highlights.
+*   **Accessible Overlays:** Keyboard-friendly ESC listeners and backdrop click-to-close behavior.
+
+### 🎯 Hero Header & Interactive Tour
+*   **Time-Aware Dynamic Greeting:** Customized header greeting adaptively greeting the user based on the local time of day ("Good morning / afternoon / evening, Priyanshi!").
+*   **Live Qlik Selection Banner:** Real-time breadcrumb summary showing active filters currently applied across the dataset.
+*   **Automated Interactive Tour:** Step-by-step walkthrough highlighting dashboard components and auto-filtering to demonstrate live Qlik recalculations.
+
+### 🔍 Dynamic Accordion Filtering & Associative Search
+*   **Qlik Associative Engine Integration:** Accordion filter lists bind directly to Qlik engine list objects (`qListObject`), maintaining true green/white/grey associative states (selected, possible, excluded).
+*   **Platform Brand Accents:** Visual selection indicators matching platform color identities (Netflix red, Prime blue, Hulu green, Disney navy).
+*   **Granular & Global Clear Controls:** Isolated clear buttons for each filter category alongside a global dashboard reset control.
+
+### 📊 KPI Scorecards
+*   **Smooth Count-Up Animations:** Numeric counters animating dynamically whenever data selections update.
+*   **Key Executive Metrics:**
+    1. **Total Titles:** Total streaming catalog volume.
+    2. **Global Coverage:** Number of unique content-producing countries.
+    3. **Average IMDb Rating:** Overall audience sentiment score.
+    4. **Average Runtime:** Catalog average content duration in minutes.
+
+### 📈 Apache ECharts Analytics Grid
+1.  **Content Distribution by Platform:** Bar chart visualizing content allocation across major streaming providers.
+2.  **Content Release Trend Over Time:** Gradient area chart showing multi-year release progression.
+3.  **Genre Distribution:** Treemap displaying hierarchical breakdown of genres.
+4.  **Top 10 Countries by Volume:** Horizontal ranking chart for content production hubs.
+5.  **IMDb vs. Rotten Tomatoes Analysis:** Scatter plot correlating audience and critic rating metrics.
+6.  **Content Growth vs. IMDb Rating:** Dual-axis chart comparing annual volume additions against average quality ratings.
+
+### 🎨 Theme & Styling Architecture
+*   **Instant Dark / Light Toggle:** Smooth theme switcher with persistent user preference storage.
+*   **Glassmorphic Design System:** Styled using modern CSS variables, backdrop blur filters, and subtle ambient glowing gradients.
+*   **Responsive Layout:** Flexbox & CSS Grid structure optimized across desktop and widescreen displays.
+
+---
+
+## 🛠️ Technologies Used
+
+*   **Platform Engine:** Qlik Sense Enterprise / Qlik Dev Hub Mashup API
+*   **Chart Library:** Apache ECharts v5 (via CDN & custom render adapters)
+*   **UI Framework:** Vanilla HTML5, Custom CSS3 (CSS Variables, Flexbox, CSS Grid)
+*   **Scripting & Logic:** Vanilla JavaScript (ES6 Modules & IIFE patterns)
+*   **Module Loader:** RequireJS (Qlik Sense runtime dependency)
+*   **Typography:** Google Fonts (Inter)
+
+---
+
+## 📂 Project Structure
 
 ```
 OTT-Streaming-Qlik-Mashup/
-├── OTTStreamingPlatform.html       # Entrypoint & skeleton markup
-├── OTTStreamingPlatform.css        # Root layout, header, and colour variables
-├── OTTStreamingPlatform.js         # Qlik connection bootstrap
-├── README.md
+├── OTTStreamingPlatform.html       # Application entrypoint & HTML structure
+├── OTTStreamingPlatform.css        # Base layout & top header styles
+├── OTTStreamingPlatform.js         # Qlik connection & RequireJS entrypoint
+├── OTTStreamingPlatform.qext       # Qlik extension manifest metadata
+├── README.md                       # Project documentation
 │
 ├── css/
-│   ├── animations.css              # Entry keyframe definitions
-│   ├── cards.css                   # KPI & chart card styles
-│   ├── charts.css                  # Chart container grid & sizing
-│   ├── filters.css                 # Accordion, pills, checkbox input styles
-│   └── theme.css                   # Light/Dark CSS token definitions
+│   ├── animations.css              # Entrance keyframes & glow animations
+│   ├── background.css              # Ambient background gradients
+│   ├── cards.css                   # KPI scorecards & chart container styles
+│   ├── charts.css                  # ECharts container grids & responsiveness
+│   ├── filters.css                 # Accordion dropdowns, checkboxes, & filter pills
+│   ├── landing.css                 # Interactive landing splash page styles
+│   └── theme.css                   # Light/Dark mode CSS custom property tokens
 │
-└── js/
-    ├── adapters.js                 # Field names, measures, dimension helpers
-    ├── charts.js                   # Chart orchestration & ECharts rendering
-    ├── dashboard.js                # Module boot orchestrator
-    ├── filters.js                  # Qlik list object binding & filter UI
-    ├── hypercube.js                # Session object & hypercube controller
-    ├── kpi.js                      # KPI manager & count-up animations
-    ├── theme.js                    # Dark/Light theme switcher
-    └── utils.js                    # Number formatting & resize utilities
+├── js/
+│   ├── adapters.js                 # Field mappings, measures, & data formatting
+│   ├── background.js               # Background animation controller
+│   ├── charts.js                   # ECharts configuration, rendering, & resize observers
+│   ├── dashboard.js                # Core dashboard boot & module orchestrator
+│   ├── filters.js                  # Qlik ListObject binding & filter UI controller
+│   ├── hero.js                     # Interactive hero section greeting & quick tour manager
+│   ├── hypercube.js                # Session objects & Qlik HyperCube data fetching
+│   ├── kpi.js                      # KPI calculations & count-up animations
+│   ├── landing.js                  # Landing page animations, typewriter, & modal manager
+│   ├── theme.js                    # Dark/Light theme switching & local storage persistence
+│   └── utils.js                    # Number formatters, debounce, & window resize helpers
+│
+└── screenshots/
+    ├── landingPage.png             # Interactive landing splash page preview
+    ├── login.png                   # Auth & feature modal dialog preview
+    ├── dashboard-dark.png          # Dark theme dashboard preview
+    ├── dashboard-light.png         # Light theme dashboard preview
+    └── charts.png                  # ECharts visualization grid detail preview
 ```
 
 ---
 
-## Layout & Design Tokens
+## 🎨 Layout & Design Tokens
 
-| Token | Light Theme | Dark Theme |
+| Design Token | Light Theme | Dark Theme (Default) |
 | :--- | :--- | :--- |
-| **Page Background** | `#F0F4FB` gradient | `#090a0f` gradient |
+| **Page Background** | `#F0F4FB` (Gradient) | `#090A0F` (Solid / Glow) |
 | **Card Surface** | `#FFFFFF` | `#161B22` |
-| **Primary Accent** | `#6366F1` | `#8B5CF6` |
-| **Body Text** | `#0F172A` | `#F0F6FC` |
-| **Muted Text** | `#64748B` | `#8B949E` |
+| **Primary Accent** | `#6366F1` (Indigo) | `#8B5CF6` (Purple) |
+| **Text Primary** | `#0F172A` | `#F0F6FC` |
+| **Text Muted** | `#64748B` | `#8B949E` |
+| **Border Color** | `rgba(0, 0, 0, 0.08)` | `rgba(255, 255, 255, 0.1)` |
 
 ---
 
-## Dashboard Overview
+## 💻 Setup & Usage Instructions
 
-Users can analyze:
-
-*   Content distribution across streaming platforms
-*   Release trends over time
-*   Genre-wise distribution
-*   Top content-producing countries
-*   IMDb vs Rotten Tomatoes rating correlations
-*   OTT content growth trends
-
-Interactive filters enable drill-down by platform, release year, age rating, and country.
-
----
-
-## Future Enhancements
-
-*   Navigational tabs for section-based drill-throughs.
-*   Additional OTT KPIs (subscriber estimates, regional breakdowns).
-*   Enhanced mobile layout responsiveness.
-*   Offline fallback caching for presentation mode.
+1. **Deploy to Qlik Sense:**
+   * Copy or clone the repository folder into your Qlik Sense Extensions directory:
+     `C:\Users\<User>\Documents\Qlik\Sense\Extensions\OTTStreamingPlatform`
+2. **Open Qlik Sense Desktop / Enterprise:**
+   * Launch Qlik Sense Desktop or navigate to your Qlik Sense Hub.
+3. **Access Mashup:**
+   * Open the mashup URL in your web browser:
+     `http://localhost:4848/extensions/OTTStreamingPlatform/OTTStreamingPlatform.html`
+4. **Explore Dashboard:**
+   * Experience the **Landing Page** and click **"Launch Dashboard"**.
+   * Click **"Interactive Tour"** inside the hero panel to run an automated walkthrough of the analytics features.
 
 ---
 
-## Author
+## 👤 Author
 
-**Priyanshi Varshney** — UPES, Dehradun (B.Tech CSE — Full Stack Development)
+**Priyanshi Varshney**  
+*B.Tech Computer Science Engineering — Full Stack Development*  
+UPES, Dehradun
